@@ -3,22 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>ילי בן 8!!!</title>
-  <script src="lib/snap.svg.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/svg-path-properties@0.1.1/build/path-properties.min.js"></script>
+  <script src="js/script.js"></script>
   <style>
     html, body {
       height: 100%;
+      margin: 0;
     }
 
-    #canvas {
-      width: 400px;
-      height: 700px;
+    .car {
+      position: absolute;
+      width: 16px;
+      height: 30px;
+      background: #000;
     }
   </style>
 </head>
-<body>
-
-<svg id="canvas"></svg>
-
-<script src="js/script.js"></script>
+<body onload="init();">
+<img src="img/8.svg" alt="" class="track">
+<div class="car"></div>
 </body>
 </html>
