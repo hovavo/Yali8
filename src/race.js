@@ -1,5 +1,5 @@
 import Car from "./car";
-import Lane, {LanePoint} from "./lane";
+import Lane from "./lane";
 
 export default class Race {
   constructor() {

@@ -9,12 +9,11 @@
 <div id="game">
   <div id="canvas"></div>
   <button v-if="state === 'ready'" v-on:click="startGame">Start Game</button>
-  <br>
   <div v-if="state === 'racing'">
-    <button v-on:click="stopGame">Stop Game</button>
+    <button @click="stopGame">Stop Game</button>
     <br>
-    <button v-on:click="race.switchLane(-1)">left</button>
-    <button v-on:click="race.switchLane(1)">right</button>
+    <button @click="left">left</button>
+    <button @click="right">right</button>
     {{ race.elapsedTime | moment("mm:ss:SS") }}
   </div>
 </div>
