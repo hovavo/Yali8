@@ -3,25 +3,34 @@ import Lane, {LanePoint} from "./lane";
 
 export default class Race {
   constructor() {
-    this.elapsedTime = new Date(0);
-    this.currentRound = 0;
     this.totalRounds = 3; // Move to config
     this.car = new Car();
     this.lanes = [
-      new Lane(SVG.get('Track_1').node)
+      new Lane(SVG.get('Track_1').node, 949.02),
+      new Lane(SVG.get('Track_2').node, 107.145),
+      new Lane(SVG.get('Track_3').node, 434.695)
     ];
 
-    this.currentLane = this.lanes[0];
     this.racing = false;
-    this.roundLength = this.currentLane.path.getTotalLength();
+    this.roundLength = this.lanes[0].length;
+
+    this.init();
+    this.update();
+  }
+
+  init() {
+    this.elapsedTime = new Date(0);
+    this.currentRound = 0;
+    this.elapsedTime = 0;
+    this.currentRound = 0;
+    this.currentLane = this.lanes[2];
+    this.car.progress = 0;
+    this.car.position = this.currentLane.getPoint(0);
   }
 
   start() {
-    this.elapsedTime = 0;
-    this.currentRound = 0;
+    this.init();
     this.staredTime = new Date().getTime();
-    this.car.progress = 0;
-    this.car.position = new LanePoint(0, 0, 0);
     window.requestAnimationFrame(this.update.bind(this));
     this.racing = true;
   }
@@ -61,5 +70,6 @@ export default class Race {
     this.car.art.x(nextPoint.x);
     this.car.art.y(nextPoint.y);
 
+    console.log(nextPoint.angle)
   }
 }
