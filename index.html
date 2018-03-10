@@ -7,12 +7,15 @@
 </head>
 <body>
 <div id="game">
-  {{state}}
-  <br>
-  <button v-if="state === 'init'" v-on:click="startGame">Start Game</button>
+  <div id="canvas"></div>
+  <button v-if="state === 'ready'" v-on:click="startGame">Start Game</button>
   <button v-if="state === 'racing'" v-on:click="stopGame">Stop Game</button>
   <br>
-  {{ race.elapsedTime | moment("mm:ss:SS") }}
+  <div v-if="state === 'racing'">
+    {{ race.elapsedTime | moment("mm:ss:SS") }}
+    <br>
+    {{ race.currentRound }}
+  </div>
 </div>
 
 <script src="build/bundle.js"></script>

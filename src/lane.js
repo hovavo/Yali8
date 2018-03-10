@@ -1,8 +1,8 @@
 export class LanePoint {
-  constructor(x, y, normal, force, isBump, isPowerup) {
+  constructor(x, y, angle, force, isBump, isPowerup) {
     this.x = x;
     this.y = y;
-    this.normal = normal;
+    this.angle = angle;
     this.force = force;
     this.isBump = isBump;
     this.isPowerup= isPowerup;
@@ -21,8 +21,9 @@ export default class Lane {
   }
 
   getPoint(position) {
-    let svgPoint = path.getPointAtLength(position);
-    // let nextSvgPoint = path.getPointAtLength(position + 3);
-    return new LanePoint(svgPoint.x, svgPoint.y);
+    let svgPoint = this.path.getPointAtLength(position);
+    let nextSvgPoint = this.path.getPointAtLength(position + 3);
+    let angle = Math.atan2(nextSvgPoint.y - svgPoint.y, nextSvgPoint.x - svgPoint.x) * 180 / Math.PI + 90;
+    return new LanePoint(svgPoint.x, svgPoint.y, angle);
   }
 }
