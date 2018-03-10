@@ -7,11 +7,10 @@ export default class Race {
     this.totalRounds = 3; // Move to config
     this.car = new Car();
     this.lanes = [
-      new Lane(SVG.get('Track_1').node, 949.02),
+      new Lane(SVG.get('Track_3').node, 434.695),
       new Lane(SVG.get('Track_2').node, 107.145),
-      new Lane(SVG.get('Track_3').node, 434.695)
+      new Lane(SVG.get('Track_1').node, 949.02)
     ];
-    this.roundLength = this.lanes[0].length;
     this.placeholderBelow = SVG.get('Placeholder_below');
     this.placeholderAbove = SVG.get('Placeholder_above');
 
@@ -24,7 +23,9 @@ export default class Race {
     this.currentRound = 0;
     this.elapsedTime = 0;
     this.currentRound = 0;
-    this.currentLane = this.lanes[2];
+    this.currentLaneIndex = 1;
+    this.currentLane = this.lanes[this.currentLaneIndex];
+    this.car.force = 0;
     this.car.progress = 0;
     this.car.position = this.currentLane.getPoint(0);
     this.carIsAbove = true;
@@ -40,6 +41,25 @@ export default class Race {
 
   stop() {
     this.racing = false;
+  }
+
+
+  /**
+   * @param direction {Number} 1 = right, -1 = left
+   */
+  switchLane(direction) {
+    if (direction === 1) {
+      if (this.currentLaneIndex !== 2) {
+        this.currentLaneIndex++;
+        this.currentLane = this.lanes[this.currentLaneIndex];
+      }
+    }
+    else if (direction === -1) {
+      if (this.currentLaneIndex !== 0) {
+        this.currentLaneIndex--;
+        this.currentLane = this.lanes[this.currentLaneIndex];
+      }
+    }
   }
 
   update() {
@@ -61,8 +81,8 @@ export default class Race {
     }
 
     this.car.progress += this.car.force;
-    if (this.car.progress > this.roundLength) {
-      this.car.progress = this.car.progress % this.roundLength;
+    if (this.car.progress > this.currentLane.length) {
+      this.car.progress = this.car.progress % this.currentLane.length;
       this.currentRound++;
     }
 
