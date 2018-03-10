@@ -3,22 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>ילי בן 8!!!</title>
-  <script src="lib/snap.svg.js"></script>
-  <style>
-    html, body {
-      height: 100%;
-    }
-
-    #canvas {
-      width: 400px;
-      height: 700px;
-    }
-  </style>
+  <link rel="stylesheet" href="build/css/style.css">
 </head>
 <body>
+<div id="game">
+  {{state}}
+  <br>
+  <button v-if="state === 'init'" v-on:click="startGame">Start Game</button>
+  <button v-if="state === 'racing'" v-on:click="stopGame">Stop Game</button>
+  <br>
+  {{ race.elapsedTime | moment("mm:ss:SS") }}
+</div>
 
-<svg id="canvas"></svg>
-
-<script src="js/script.js"></script>
+<script src="build/bundle.js"></script>
 </body>
 </html>
