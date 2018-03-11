@@ -7,12 +7,12 @@ export default class Race {
     this.totalRounds = 3; // Move to config
     this.car = new Car();
     this.lanes = [
-      new Lane(SVG.get('Track_3').node, 434.695),
-      new Lane(SVG.get('Track_2').node, 107.145),
-      new Lane(SVG.get('Track_1').node, 949.02)
+      new Lane(paper.project.getItem({name: 'Track_3'}), 434.695),
+      new Lane(paper.project.getItem({name: 'Track_2'}), 107.145),
+      new Lane(paper.project.getItem({name: 'Track_1'}), 949.02)
     ];
-    this.placeholderBelow = SVG.get('Placeholder_below');
-    this.placeholderAbove = SVG.get('Placeholder_above');
+    this.placeholderBelow = paper.project.getItem({name: 'Placeholder_below'});
+    this.placeholderAbove = paper.project.getItem({name: 'Placeholder_above'});
 
     this.init();
     this.update();
@@ -48,16 +48,42 @@ export default class Race {
    * @param direction {Number} 1 = right, -1 = left
    */
   switchLane(direction) {
+
+    let changed = false;
+
     if (direction === 1) {
       if (this.currentLaneIndex !== 2) {
         this.currentLaneIndex++;
-        this.currentLane = this.lanes[this.currentLaneIndex];
+        changed = true;
       }
     }
     else if (direction === -1) {
       if (this.currentLaneIndex !== 0) {
         this.currentLaneIndex--;
-        this.currentLane = this.lanes[this.currentLaneIndex];
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      this.currentLane = this.lanes[this.currentLaneIndex];
+
+      let vec = new paper.Point({
+        angle: this.car.art.rotation,
+        length: 40
+      });
+      
+      if (direction == -1) {
+        vec.angle += 180;
+      }
+
+      let intersectionLine = new paper.Path();
+      intersectionLine.add(this.car.art.position);
+      intersectionLine.add(this.car.art.position.add(vec));
+
+      let intersections = this.currentLane.path.getIntersections(intersectionLine);
+      if (intersections[0]) {
+        let intersectionProgress = intersections[0].offset + this.car.force;
+        this.car.progress = this.currentLane.reverseAdjustProgress(intersectionProgress);
       }
     }
   }
@@ -89,9 +115,9 @@ export default class Race {
     let nextPoint = this.currentLane.getPoint(this.car.progress);
 
     this.car.position = nextPoint;
-    this.car.artInner.rotate(nextPoint.angle);
-    this.car.art.x(nextPoint.x);
-    this.car.art.y(nextPoint.y);
+    this.car.art.rotation = nextPoint.angle;
+    this.car.art.position.x = nextPoint.x;
+    this.car.art.position.y = nextPoint.y;
 
     if (this.car.progress > 900 && this.car.progress < 1300) {
       if (this.carIsAbove) {
@@ -103,5 +129,7 @@ export default class Race {
       this.carIsAbove = true;
       this.car.art.addTo(this.placeholderAbove);
     }
+
+    paper.view.draw();
   }
 }

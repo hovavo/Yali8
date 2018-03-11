@@ -1,8 +1,8 @@
 export default class Car {
 
   constructor() {
-    this.art = SVG.get("Car");
-    this.artInner = SVG.get("Car_inner");
+    this.art = paper.project.getItem({name: 'Car'});
+    this.art.transformContent = false;
     this.force = 0;
     this.maxForce = 5;
     this.angle = 0;

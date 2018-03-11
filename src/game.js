@@ -1,7 +1,7 @@
 import Vue from 'vue/dist/vue.js';
 import VueMoment from 'vue-moment';
-import SVG from 'svg.js';
 import Race from './race';
+import paper from 'paper';
 
 Vue.use(VueMoment);
 
@@ -31,18 +31,25 @@ export default class Game extends Vue {
             this.race.switchLane(1);
         }
       },
-      created: function () {
+      mounted: function () {
         let game = this;
 
         // Load Art
-        fetch('/img/8.svg')
-        .then(function (response) {
-          game.art = SVG('canvas').size('100%', 500);
-          response.text().then(function (text) {
-            game.art.svg(text);
-            game.ready();
-          });
+
+        paper.install(window);
+        paper.setup(document.getElementById('canvas'));
+        paper.project.importSVG('/img/8.svg', function (svg) {
+          game.ready();
         });
+
+        // fetch('/img/8.svg')
+        // .then(function (response) {
+        //   game.art = SVG('canvas').size('100%', 500);
+        //   response.text().then(function (text) {
+        //     game.art.svg(text);
+        //     game.ready();
+        //   });
+        // });
 
         // Bind keys:
         window.addEventListener('keydown', game.onKeyDown.bind(game));
