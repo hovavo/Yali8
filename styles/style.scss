@@ -1,4 +1,84 @@
+@import url('https://fonts.googleapis.com/css?family=Righteous');
+
+$dashed-border: black dashed 2px;
+
 body, html {
   height: 100%;
   margin: 0;
+  font-family: 'Righteous', cursive;
+}
+
+#game {
+  display: flex;
+  justify-content: center;
+}
+
+#container {
+  display: flex;
+  width: 100%;
+  max-width: 768px;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  border: 5px solid black;
+  margin: 20px;
+  height: calc(100vh - 40px);
+}
+
+#canvas_container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+
+  #overlay_ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    align-items: flex-start;
+
+    #time {
+      font-size: 36px;
+      text-align: right;
+    }
+  }
+}
+
+#canvas {
+  //height: 560px !important;
+  //width: auto !important;
+  //position: absolute;
+}
+
+button {
+  background: none;
+  border: none;
+  font-family: 'Righteous', cursive;
+  font-size: 48px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+#bottom-sheet {
+  height: 164px;
+  border-top: $dashed-border;
+  width: 100%;
+  display: flex;
+
+  button {
+    flex: 1;
+    height: 100%;
+
+    &:nth-of-type(2) {
+      border-left: $dashed-border;
+    }
+  }
 }

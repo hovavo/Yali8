@@ -2,7 +2,8 @@ import Car from "./car";
 import Lane from "./lane";
 
 export default class Race {
-  constructor() {
+  constructor(onComplete) {
+    this.onComplete = onComplete;
     this.racing = false;
     this.totalRounds = 3; // Move to config
     this.car = new Car();
@@ -20,9 +21,7 @@ export default class Race {
 
   init() {
     this.elapsedTime = new Date(0);
-    this.currentRound = 0;
-    this.elapsedTime = 0;
-    this.currentRound = 0;
+    this.currentRound = 1;
     this.currentLaneIndex = 1;
     this.currentLane = this.lanes[this.currentLaneIndex];
     this.car.force = 0;
@@ -82,7 +81,7 @@ export default class Race {
 
       let intersections = this.currentLane.path.getIntersections(intersectionLine);
       if (intersections[0]) {
-        let intersectionProgress = intersections[0].offset + this.car.force;
+        let intersectionProgress = intersections[0].offset + this.car.force * 2;
         this.car.progress = this.currentLane.reverseAdjustProgress(intersectionProgress);
       }
     }
@@ -110,6 +109,9 @@ export default class Race {
     if (this.car.progress > this.currentLane.length) {
       this.car.progress = this.car.progress % this.currentLane.length;
       this.currentRound++;
+      if (this.currentRound > this.totalRounds) {
+        this.onComplete();
+      }
     }
 
     let nextPoint = this.currentLane.getPoint(this.car.progress);
@@ -129,7 +131,5 @@ export default class Race {
       this.carIsAbove = true;
       this.car.art.addTo(this.placeholderAbove);
     }
-
-    paper.view.draw();
   }
 }

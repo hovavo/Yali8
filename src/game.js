@@ -1,8 +1,10 @@
 import Vue from 'vue/dist/vue.js';
 import VueMoment from 'vue-moment';
-import Race from './race';
+// import Vue2Touch from 'vue2-touch';
 import paper from 'paper';
+import Race from './race';
 
+// Vue.use(Vue2Touch);
 Vue.use(VueMoment);
 
 export default class Game extends Vue {
@@ -15,6 +17,7 @@ export default class Game extends Vue {
       },
       methods: {
         startGame: function () {
+          console.log('start')
           this.state = 'racing';
           this.race.start();
         },
@@ -22,11 +25,16 @@ export default class Game extends Vue {
           this.state = 'ready';
           this.race.stop();
         },
+        endGame: function () {
+          this.state = 'end';
+          this.race.stop();
+        },
         left: function () {
           if (this.state === 'racing')
             this.race.switchLane(-1);
         },
         right: function () {
+          console.log('right')
           if (this.state === 'racing')
             this.race.switchLane(1);
         }
@@ -42,15 +50,6 @@ export default class Game extends Vue {
           game.ready();
         });
 
-        // fetch('/img/8.svg')
-        // .then(function (response) {
-        //   game.art = SVG('canvas').size('100%', 500);
-        //   response.text().then(function (text) {
-        //     game.art.svg(text);
-        //     game.ready();
-        //   });
-        // });
-
         // Bind keys:
         window.addEventListener('keydown', game.onKeyDown.bind(game));
       }
@@ -60,15 +59,7 @@ export default class Game extends Vue {
 
   ready() {
     this.state = 'ready';
-    this.race = new Race(this.art);
-
-    // this.race.lanes.forEach(lane => {
-    //   for (let i = 0; i < 8; i++) {
-    //     let point = lane.getPoint((lane.length / 8) * i);
-    //     let label = SVG.get('Placeholder_above').text(String(i)).x(point.x-5).y(point.y-10);
-    //   }
-    // });
-
+    this.race = new Race(this.endGame);
   }
 
   onKeyDown(event) {

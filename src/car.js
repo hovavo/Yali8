@@ -4,7 +4,7 @@ export default class Car {
     this.art = paper.project.getItem({name: 'Car'});
     this.art.transformContent = false;
     this.force = 0;
-    this.maxForce = 5;
+    this.maxForce = 7;
     this.angle = 0;
     this.progress = 0;
     this.position;
