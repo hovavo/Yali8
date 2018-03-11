@@ -1,10 +1,8 @@
 import Vue from 'vue/dist/vue.js';
 import VueMoment from 'vue-moment';
-// import Vue2Touch from 'vue2-touch';
 import paper from 'paper';
 import Race from './race';
 
-// Vue.use(Vue2Touch);
 Vue.use(VueMoment);
 
 export default class Game extends Vue {
@@ -47,6 +45,7 @@ export default class Game extends Vue {
         paper.install(window);
         paper.setup(document.getElementById('canvas'));
         paper.project.importSVG('/img/8.svg', function (svg) {
+          paper.view.scale(0.8);
           game.ready();
         });
 
